@@ -1,4 +1,4 @@
-package com.sergio.app.users.commons;
+package com.sergio.app.commons.users;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

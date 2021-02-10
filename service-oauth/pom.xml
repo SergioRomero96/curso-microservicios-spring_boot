@@ -20,7 +20,7 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>com.sergio.app.users.commons</groupId>
+			<groupId>com.sergio.app.commons.users</groupId>
 			<artifactId>service-users-commons</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<exclusions>
@@ -64,6 +64,10 @@
 					<artifactId>junit-vintage-engine</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>

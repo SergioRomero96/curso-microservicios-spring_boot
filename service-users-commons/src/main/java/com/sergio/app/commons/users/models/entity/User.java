@@ -1,4 +1,4 @@
-package com.sergio.app.users.commons.models.entity;
+package com.sergio.app.commons.users.models.entity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -25,7 +25,7 @@ public class User implements Serializable {
 
 	@Column(unique = true, length = 20)
 	private String username;
-	@Column(length = 20)
+	@Column(length = 100)
 	private String password;
 	private Boolean enabled;
 	private String name;
@@ -39,6 +39,16 @@ public class User implements Serializable {
 		inverseJoinColumns = @JoinColumn(name = "role_id"),
 		uniqueConstraints = {@UniqueConstraint(columnNames = { "user_id", "role_id" }) })
 	private List<Role> roles;
+	
+	private Integer loginAttempts;
+
+	public Integer getLoginAttempts() {
+		return loginAttempts;
+	}
+
+	public void setLoginAttempts(Integer loginAttempts) {
+		this.loginAttempts = loginAttempts;
+	}
 
 	public Long getId() {
 		return id;

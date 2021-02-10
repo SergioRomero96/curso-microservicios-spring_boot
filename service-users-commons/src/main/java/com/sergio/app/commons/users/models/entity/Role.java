@@ -1,4 +1,4 @@
-package com.sergio.app.users.commons.models.entity;
+package com.sergio.app.commons.users.models.entity;
 
 import java.io.Serializable;
 

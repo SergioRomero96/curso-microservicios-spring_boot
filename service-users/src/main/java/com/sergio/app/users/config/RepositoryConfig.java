@@ -4,8 +4,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 
-import com.sergio.app.users.commons.models.entity.Role;
-import com.sergio.app.users.commons.models.entity.User;
+import com.sergio.app.commons.users.models.entity.Role;
+import com.sergio.app.commons.users.models.entity.User;
 
 
 
