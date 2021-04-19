@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.sergio.app.commons.users.models.entity.User;
 import com.sergio.app.oauth.services.IUserService;
 
+import brave.Tracer;
 import feign.FeignException;
 
 @Component
@@ -23,6 +24,9 @@ public class AuthenticationSuccessErrorHandler implements AuthenticationEventPub
 	private IUserService userService;
 	@Autowired
 	private Environment env;
+	
+	@Autowired
+	private Tracer tracer;
 	
 	@Override
 	public void publishAuthenticationSuccess(Authentication authentication) {
@@ -49,6 +53,8 @@ public class AuthenticationSuccessErrorHandler implements AuthenticationEventPub
 		System.out.println(message);
 		
 		try {
+			StringBuilder errors = new StringBuilder();
+			errors.append(message);
 			User user = userService.findByUsername(authentication.getName());
 			if(user.getLoginAttempts() == null ) {
 				user.setLoginAttempts(0);
@@ -57,12 +63,18 @@ public class AuthenticationSuccessErrorHandler implements AuthenticationEventPub
 			log.info("Intentos actual es de: " + user.getLoginAttempts());
 			user.setLoginAttempts(user.getLoginAttempts()+1);
 			log.info("Intentos después es de: " + user.getLoginAttempts());
+			errors.append(" - Intentos del login: " + user.getLoginAttempts());
 			if(user.getLoginAttempts() >= 3) {
-				log.error(String.format("El usuario %s des-habilitado por máximos intentos.", user.getUsername()));
+				String errorMaxIntentos = String.format("El usuario %s des-habilitado por máximos intentos.", user.getUsername());
+				log.error(errorMaxIntentos);
+				errors.append(" - " + errorMaxIntentos);
 				user.setEnabled(false);
 			}
 			
 			userService.update(user, user.getId());
+			
+			tracer.currentSpan().tag("error.mensaje", errors.toString());
+			
 		} catch (FeignException e) {
 			log.error(String.format("El usuario %s no existe en el sistema", authentication.getName()));
 			
